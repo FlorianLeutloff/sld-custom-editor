@@ -16,22 +16,44 @@ export class MainEditor {
   @ViewChild("editor")
   editor!: EditorComponent;
 
+  version: "1.0.0"|"1.1.0" = "1.0.0"
+
+  
+
 
   private monacoEditor!: monacoTypes.editor.IStandaloneCodeEditor;
 
   public schemaDictionary = {}
 
-  editorOptions = { theme: 'vs-dark', language: 'xml' };
+  editorOptions = { theme: 'vs-dark', language: 'xml', automaticLayout: true };
   text = `<?xml version="1.0" encoding="UTF-8"?>
 
 <sld:StyledLayerDescriptor>
 
 </sld:StyledLayerDescriptor>`
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   onEditorInit(editor: Monaco.editor.IEditor) {
     this.compileSchemaDictionary().then((result) => {
       this.schemaDictionary = result;
       monaco.languages.registerCompletionItemProvider("xml", this.getXmlCompletionProvider(monaco, this.schemaDictionary))
+      editor.layout();
     })
 
   }
@@ -45,7 +67,7 @@ export class MainEditor {
 
   async compileSchemaDictionary() {
     const ogcText = await this.fetchSchemas("ogc.xsd");
-    const sldText = await this.fetchSchemas("StyledLayerDescriptor.xsd");
+    const sldText = await this.fetchSchemas("sld.xsd");
     const gmlText = await this.fetchSchemas("gml.xsd");
 
     //continue replacing the xsd prefix of each element
