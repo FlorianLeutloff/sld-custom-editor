@@ -28,7 +28,7 @@ export class MainEditor {
   editorOptions = { theme: 'vs-dark', language: 'xml', automaticLayout: true };
   text = `<?xml version="1.0" encoding="UTF-8"?>
 
-<sld:StyledLayerDescriptor>
+<sld:StyledLayerDescriptor version="1.0.0">
 
 </sld:StyledLayerDescriptor>`
 
@@ -36,7 +36,24 @@ export class MainEditor {
 
 
 
+  changeSchemaVersion(event) {
+    const rootPosition = this.text.indexOf("<sld:StyledLayerDescriptor")
+    if(rootPosition !== -1) {
+      const versionPosition = this.text.indexOf("version=",rootPosition);
+      if(versionPosition !== -1) {
+        const adjustedVersionPosition = versionPosition + 15;
+        const rootSubstring = this.text.substring(rootPosition,adjustedVersionPosition);
+        const replacementString = this.version === "1.1.0" ? rootSubstring.replace("1.0.0",this.version) : rootSubstring.replace("1.1.0",this.version)
+        this.text = this.text.replace(rootSubstring,replacementString);
+      } else {
+        console.warn("changeSchemaVersion: could not find the version")
+      }
+    } else {
+      console.warn("changeSchemaVersion: could not find the StyledLayerDescriptor Element")
 
+    }
+
+  }
 
 
 
