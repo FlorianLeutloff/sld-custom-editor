@@ -1,12 +1,12 @@
 <p>main-editor works!</p>
 <div>
     <div>
-        <p>Version auswählen</p>
-        <select [(ngModel)]="version" (ngModelChange)="changeSchemaVersion($event)">
-            <option value="1.0.0">1.0.0</option>
-            <option value="1.1.0">1.1.0</option>
-        </select>
-   
+        <p>Version auswählen
+            <select class="version-selector" [(ngModel)]="version" (ngModelChange)="changeSchemaVersion($event)">
+                <option value="1.0.0">1.0.0</option>
+                <option value="1.1.0">1.1.0</option>
+            </select>
+        </p>
     </div>
     <div class="editor-container">
         <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="text" (onInit)="onEditorInit($event)" #editor style="height: 100%"></ngx-monaco-editor>

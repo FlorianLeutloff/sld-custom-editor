@@ -50,9 +50,7 @@ export class MainEditor {
       }
     } else {
       console.warn("changeSchemaVersion: could not find the StyledLayerDescriptor Element")
-
     }
-
   }
 
 
@@ -72,6 +70,17 @@ export class MainEditor {
       monaco.languages.registerCompletionItemProvider("xml", this.getXmlCompletionProvider(monaco, this.schemaDictionary))
       editor.layout();
     })
+    const validationWorker = new Worker("/assets/validation-worker.js",{type:"module"})
+    console.log("Test 1")
+    validationWorker.postMessage("hiiiiiiiiii")
+    console.log("Test 2")
+    validationWorker.onmessage = (message)  => {
+      console.log("RESPONSE")
+      console.log(message)
+    }
+    console.log("Test 3")
+    validationWorker.postMessage("hiiiiiiiiii")
+    console.log("Test 4")
 
   }
 
